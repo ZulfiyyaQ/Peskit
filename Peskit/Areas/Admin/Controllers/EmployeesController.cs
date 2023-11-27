@@ -5,27 +5,20 @@ namespace Peskit.Areas.Admin.Controllers
 {
     public class EmployeesController : Controller
     {
-        // GET: EmployeesController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: EmployeesController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
 
-        // GET: EmployeesController/Create
+
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: EmployeesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public ActionResult Create(IFormCollection collection)
         {
             try
@@ -38,16 +31,15 @@ namespace Peskit.Areas.Admin.Controllers
             }
         }
 
-        // GET: EmployeesController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Update(int id)
         {
             return View();
         }
 
-        // POST: EmployeesController/Edit/5
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+
+        public ActionResult Update(int id, IFormCollection collection)
         {
             try
             {
@@ -59,15 +51,13 @@ namespace Peskit.Areas.Admin.Controllers
             }
         }
 
-        // GET: EmployeesController/Delete/5
+
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: EmployeesController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
         {
             try
@@ -78,6 +68,10 @@ namespace Peskit.Areas.Admin.Controllers
             {
                 return View();
             }
+        }
+        public ActionResult Details(int id)
+        {
+            return View();
         }
     }
 }

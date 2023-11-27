@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Azure;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Peskit.DAL;
@@ -28,43 +30,67 @@ namespace Peskit.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateSlideVM slidevm)
+        public async Task<IActionResult> Create(Author author)
         {
             if (!ModelState.IsValid)
             {
                 return View();
             }
-
-            if (!slidevm.Photo.ValidateType())
+            bool result = _context.Authors.Include(b=>b.Blogs).Any(a => a.Name.ToLower().Trim() == author.Name.ToLower().Trim());
+            if (result)
             {
-                ModelState.AddModelError("Photo", "Sekil file secmeyiniz mutleqdir");
+                ModelState.AddModelError("Name", "Tag already exists");
                 return View();
             }
-            if (!slidevm.Photo.ValidateSize(2 * 1024))
-            {
-                ModelState.AddModelError("Photo", "Sekil olcusu 2 mb dan artiq olmamalidir");
-                return View();
-            }
-
-
-            string filename = await slidevm.Photo.CreateFile(_env.WebRootPath, "assets", "images", "website-images");
-            Slide slide = new Slide
-            {
-                ImageUrl = filename,
-                Title = slidevm.Title,
-                Subtitle = slidevm.Subtitle,
-                Description = slidevm.Description,
-                Order = slidevm.Order
-            };
-
-            await _context.Slides.AddAsync(slide);
+            await _context.Authors.AddAsync(author);
             await _context.SaveChangesAsync();
 
             return RedirectToAction(nameof(Index));
         }
+        public ActionResult Update(int id)
+        {
+            return View();
+        }
 
 
-       
+        [HttpPost]
+
+        public ActionResult Update(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        public ActionResult Delete(int id)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+
 
 
     }
